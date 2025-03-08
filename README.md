@@ -1,1 +1,7 @@
-# Document-abstraction
+## Project Summary: Semantic PDF Search with Dynamic Chunking and Qdrant
+
+This project aimed to build a robust semantic search pipeline that processes a broad spectrum of PDF files (for example, novels or books or academic articles and papers) and returns the most relevant text snippets, along with their sources, using NLP techniques.
+
+We started by extracting text from the PDF file using 'pdfplumber', we make sure to also record the page number for each segment to trace results back to their original location. For splitting the text, we implemented dynamic chunking, specifically semantic chunking, that automatically tunes its threshold based on the average sentence similarity. To prevent oversized chunks we applied a word count limit, both techniques taking advantage of the 'nltk' library, which kept the data both manageable and meaningful.
+
+Next, we generated embeddings with sentence-transformers model 'MiniLM-L12-v2', we added normalization at this step to maintain consistent vector magnitudes. These embeddings, along with chunk metadata like the page number, were stored in Qdrant. For searching, we combined cosine similarity and keyword overlap to balance semantic relevance with direct keyword matches. After retrieval, we applied a simple heuristic reranking to refine the result order based on similarity scores. The final output not only included the top-matching text but also the source page numbers for easy reference.
